@@ -25,12 +25,12 @@ export function HeroBlockComponent({
   conditions,
 }: Props) {
   const isPrimaryCare = tenantSlug === 'primary-care'
-  const ctaLabel = tenantSlug
-    ? isPrimaryCare
-      ? 'Book Appointment'
-      : 'Check Wait Times'
-    : block.ctaLabel
-  const ctaHref = tenantSlug ? (isPrimaryCare ? '/book' : '/wait-times') : '/book'
+  const primaryCareCta = isPrimaryCare ? 'Book Appointment' : 'Check Wait Times'
+  const ctaLabel = tenantSlug ? primaryCareCta : block.ctaLabel
+  let ctaHref = '/book'
+  if (tenantSlug && !isPrimaryCare) {
+    ctaHref = '/wait-times'
+  }
 
   return (
     <section className="py-20 text-center">
