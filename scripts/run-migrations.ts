@@ -27,7 +27,6 @@ async function runMigrations() {
     console.log('  • Dr. James D. Pike provider profile')
     console.log('  • 4 UrgentCare pricing tiers')
 
-    await payload.db.destroy()
     process.exit(0)
   } catch (error) {
     console.error('\n❌ Migration failed!')
