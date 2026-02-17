@@ -30,5 +30,5 @@ export const config = {
    * Match all front-end routes but skip Payload admin, API, static assets,
    * and Next.js internals.
    */
-  matcher: [String.raw`/((?!_next|api|admin|favicon\.ico|.*\..*).*)`],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }
