@@ -16,7 +16,11 @@ export const metadata: Metadata = {
 
 export const revalidate = 60 // ISR – refresh conditions list every 60s
 
-export default async function BookPage() {
+interface BookPageProps {
+  readonly searchParams: Promise<{ priceLevel?: string }>
+}
+
+export default async function BookPage({ searchParams }: BookPageProps) {
   const headersList = await headers()
   const host = headersList.get('x-tenant-host') ?? 'localhost'
   const tenant = await getTenant(host)
@@ -24,6 +28,8 @@ export default async function BookPage() {
   if (!tenant) notFound()
 
   const conditions = await getConditions(tenant.id)
+  const params = await searchParams
+  const priceLevel = params.priceLevel
 
   return (
     <section className="mx-auto max-w-xl px-4 py-12">
@@ -48,7 +54,7 @@ export default async function BookPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <IntakeForm conditions={conditions} tenantId={tenant.id} />
+          <IntakeForm conditions={conditions} tenantId={tenant.id} priceLevel={priceLevel} />
         </CardContent>
       </Card>
     </section>

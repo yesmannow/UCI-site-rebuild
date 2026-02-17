@@ -72,6 +72,8 @@ export interface Config {
     inquiries: Inquiry;
     'medical-intakes': MedicalIntake;
     services: Service;
+    pricing: Pricing;
+    providers: Provider;
     pages: Page;
     media: Media;
     conditions: Condition;
@@ -88,6 +90,8 @@ export interface Config {
     inquiries: InquiriesSelect<false> | InquiriesSelect<true>;
     'medical-intakes': MedicalIntakesSelect<false> | MedicalIntakesSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
+    pricing: PricingSelect<false> | PricingSelect<true>;
+    providers: ProvidersSelect<false> | ProvidersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     conditions: ConditionsSelect<false> | ConditionsSelect<true>;
@@ -349,6 +353,104 @@ export interface Service {
     | 'Clock'
     | 'ClipboardList'
     | 'Zap';
+  /**
+   * Service category for filtering and organization.
+   */
+  category:
+    | 'Urgent'
+    | 'Primary'
+    | 'Pulmonary'
+    | 'Cardiology'
+    | 'Orthopedics'
+    | 'Dermatology'
+    | 'MentalHealth'
+    | 'PhysicalTherapy';
+  /**
+   * Associated pricing tier for this service.
+   */
+  priceLevel?: (number | null) | Pricing;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Service pricing tiers and packages offered by each tenant.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pricing".
+ */
+export interface Pricing {
+  id: number;
+  /**
+   * The brand / site this pricing tier belongs to.
+   */
+  tenant: number | Tenant;
+  /**
+   * Tier name (e.g., "Basic", "Standard", "Premium").
+   */
+  levelName: string;
+  /**
+   * Price in USD (e.g., 99.99).
+   */
+  price: number;
+  /**
+   * Brief description of what this tier includes.
+   */
+  description: string;
+  /**
+   * Which clinic type this pricing applies to.
+   */
+  siteType: 'Urgent' | 'Primary';
+  /**
+   * List of services/features included in this pricing tier.
+   */
+  includes?:
+    | {
+        /**
+         * e.g., "Basic consultation", "Lab work".
+         */
+        item: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Clinical staff and providers. Includes profiles for "Meet the Team" content.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "providers".
+ */
+export interface Provider {
+  id: number;
+  /**
+   * The brand / site this provider belongs to.
+   */
+  tenant: number | Tenant;
+  /**
+   * Full name (e.g., "Dr. Jane Smith").
+   */
+  name: string;
+  /**
+   * Credentials/title (e.g., "MD", "NP", "PA-C", "RN").
+   */
+  title: string;
+  /**
+   * Area of expertise (e.g., "Family Medicine", "Urgent Care", "Pediatrics").
+   */
+  specialty: string;
+  /**
+   * Biographical summary for the "Meet the Team" section.
+   */
+  bio?: string | null;
+  /**
+   * URL to a short video (YouTube, Vimeo, etc.) for "Meet the Team" shorts.
+   */
+  videoUrl?: string | null;
+  /**
+   * Professional headshot for the team page.
+   */
+  headshot?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -516,6 +618,14 @@ export interface PayloadLockedDocument {
         value: number | Service;
       } | null)
     | ({
+        relationTo: 'pricing';
+        value: number | Pricing;
+      } | null)
+    | ({
+        relationTo: 'providers';
+        value: number | Provider;
+      } | null)
+    | ({
         relationTo: 'pages';
         value: number | Page;
       } | null)
@@ -660,6 +770,42 @@ export interface ServicesSelect<T extends boolean = true> {
   slug?: T;
   description?: T;
   icon?: T;
+  category?: T;
+  priceLevel?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pricing_select".
+ */
+export interface PricingSelect<T extends boolean = true> {
+  tenant?: T;
+  levelName?: T;
+  price?: T;
+  description?: T;
+  siteType?: T;
+  includes?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "providers_select".
+ */
+export interface ProvidersSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  title?: T;
+  specialty?: T;
+  bio?: T;
+  videoUrl?: T;
+  headshot?: T;
   updatedAt?: T;
   createdAt?: T;
 }

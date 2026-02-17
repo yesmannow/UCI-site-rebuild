@@ -40,9 +40,10 @@ const PATIENT_PORTAL_URL = 'https://www.mymedicallocker.com'
 interface IntakeFormProps {
   readonly conditions: ConditionOption[]
   readonly tenantId: string
+  readonly priceLevel?: string
 }
 
-export function IntakeForm({ conditions, tenantId }: IntakeFormProps) {
+export function IntakeForm({ conditions, tenantId, priceLevel }: IntakeFormProps) {
   const [step, setStep] = React.useState(0)
   const [isPending, startTransition] = React.useTransition()
 
@@ -157,6 +158,15 @@ export function IntakeForm({ conditions, tenantId }: IntakeFormProps) {
   return (
     <div className="space-y-8">
       <Stepper steps={STEPS} activeStep={step} />
+
+      {/* Selected Price Level Banner */}
+      {priceLevel && (
+        <div className="rounded-md border border-primary/20 bg-primary/5 px-4 py-3 text-sm">
+          <p className="text-primary-600">
+            <strong>Service Tier Selected:</strong> You're booking the selected pricing tier.
+          </p>
+        </div>
+      )}
 
       {/* Error banner */}
       {error && (
