@@ -6,6 +6,8 @@ import { Tenants } from '@/collections/Tenants'
 import { Inquiries } from '@/collections/Inquiries'
 import { MedicalIntakes } from '@/collections/MedicalIntakes'
 import { Services } from '@/collections/Services'
+import { Pricing } from '@/collections/Pricing'
+import { Providers } from '@/collections/Providers'
 import { Pages } from '@/collections/Pages'
 import { Media } from '@/collections/Media'
 import { Conditions } from '@/collections/Conditions'
@@ -23,6 +25,8 @@ export default buildConfig({
     Inquiries,
     MedicalIntakes,
     Services,
+    Pricing,
+    Providers,
     Pages,
     Media,
     Conditions,

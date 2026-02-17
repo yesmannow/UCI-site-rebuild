@@ -73,6 +73,33 @@ export const Services: CollectionConfig = {
         description: 'Lucide React icon rendered on the front-end.',
       },
     },
+    {
+      name: 'category',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Urgent Care', value: 'Urgent' },
+        { label: 'Primary Care', value: 'Primary' },
+        { label: 'Pulmonary', value: 'Pulmonary' },
+        { label: 'Cardiology', value: 'Cardiology' },
+        { label: 'Orthopedics', value: 'Orthopedics' },
+        { label: 'Dermatology', value: 'Dermatology' },
+        { label: 'Mental Health', value: 'MentalHealth' },
+        { label: 'Physical Therapy', value: 'PhysicalTherapy' },
+      ],
+      admin: {
+        description: 'Service category for filtering and organization.',
+      },
+    },
+    {
+      name: 'priceLevel',
+      type: 'relationship',
+      relationTo: 'pricing',
+      required: false,
+      admin: {
+        description: 'Associated pricing tier for this service.',
+      },
+    },
   ],
   timestamps: true,
 }
@@ -81,6 +108,16 @@ export const Services: CollectionConfig = {
 
 export type ServiceIconName = (typeof LUCIDE_ICON_OPTIONS)[number]['value']
 
+export type ServiceCategory =
+  | 'Urgent'
+  | 'Primary'
+  | 'Pulmonary'
+  | 'Cardiology'
+  | 'Orthopedics'
+  | 'Dermatology'
+  | 'MentalHealth'
+  | 'PhysicalTherapy'
+
 export interface Service {
   id: string
   tenant: string | { id: string; name: string; slug: string }
@@ -88,6 +125,8 @@ export interface Service {
   slug: string
   description: unknown // Rich text JSON from Payload
   icon: ServiceIconName
+  category: ServiceCategory
+  priceLevel?: string | { id: string; levelName: string } | null
   createdAt: string
   updatedAt: string
 }
