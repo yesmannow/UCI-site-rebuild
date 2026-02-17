@@ -6,6 +6,8 @@ import { getTenant } from '@/lib/getTenant'
 
 import './globals.css'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'UrgentCare Indy',
   description:

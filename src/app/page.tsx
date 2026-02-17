@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation'
 import { headers } from 'next/headers'
 import { getTenant } from '@/lib/getTenant'
 
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
   const headersList = await headers()
   const host = headersList.get('x-tenant-host') ?? 'localhost'

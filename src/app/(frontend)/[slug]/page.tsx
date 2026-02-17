@@ -5,6 +5,8 @@ import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
+export const dynamic = 'force-dynamic'
+
 import { BlockRenderer } from '@/components/BlockRenderer'
 import { getClinicStatus } from '@/app/actions/getClinicStatus'
 import { getConditions } from '@/app/actions/getConditions'
