@@ -10,10 +10,15 @@ import { Pages } from '@/collections/Pages'
 import { Media } from '@/collections/Media'
 import { Conditions } from '@/collections/Conditions'
 import { Insurances } from '@/collections/Insurances'
+import { Users } from '@/collections/Users'
 
 export default buildConfig({
   /* ── Collections ──────────────────────────────────────────────────── */
+  admin: {
+    user: Users.slug,
+  },
   collections: [
+    Users,
     Tenants,
     Inquiries,
     MedicalIntakes,
