@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "generate:types": "payload generate:types",
-    "fetch-images": "tsx scripts/fetch-stock.ts"
+    "fetch-images": "tsx scripts/fetch-stock.ts",
+    "seed": "tsx scripts/run-migrations.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -13,6 +13,7 @@ import { Media } from '@/collections/Media'
 import { Conditions } from '@/collections/Conditions'
 import { Insurances } from '@/collections/Insurances'
 import { Users } from '@/collections/Users'
+import { About } from '@/globals/About'
 
 export default buildConfig({
   /* ── Collections ──────────────────────────────────────────────────── */
@@ -34,7 +35,7 @@ export default buildConfig({
   ],
 
   /* ── Globals ──────────────────────────────────────────────────────── */
-  globals: [],
+  globals: [About],
 
   /* ── Editor ───────────────────────────────────────────────────────── */
   editor: lexicalEditor(),
