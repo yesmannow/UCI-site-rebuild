@@ -111,6 +111,8 @@ export default async function DynamicPage({
       waitTime={clinicStatus?.currentWaitTime}
       isOpen={clinicStatus?.isOpen}
       conditions={conditions}
+      tenantId={tenant.id}
+      tenantSlug={tenant.slug}
     />
   )
 }

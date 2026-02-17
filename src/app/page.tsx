@@ -1,8 +1,13 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import { Clock, MapPin, Stethoscope } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { headers } from 'next/headers'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+
 import { getTenant } from '@/lib/getTenant'
+import { BlockRenderer } from '@/components/BlockRenderer'
+import { getClinicStatus } from '@/app/actions/getClinicStatus'
+import { getConditions } from '@/app/actions/getConditions'
+import type { PageDoc } from '@/collections/Pages'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,52 +20,33 @@ export default async function HomePage() {
     notFound()
   }
 
-  const page = {
-    title: `${tenant.name}`,
-    description: 'Walk-in urgent care clinics across Indianapolis. Save your spot online and skip the wait.',
-  }
+  const payload = await getPayload({ config })
+  const { docs } = await payload.find({
+    collection: 'pages',
+    where: {
+      slug: { equals: 'home' },
+      tenant: { equals: tenant.id },
+    },
+    limit: 1,
+    depth: 2,
+  })
+
+  const page = (docs[0] as unknown as PageDoc) ?? null
+  if (!page) notFound()
+
+  const hasHero = page.blocks.some((b) => b.blockType === 'hero')
+  const [clinicStatus, conditions] = hasHero
+    ? await Promise.all([getClinicStatus(tenant.id), getConditions(tenant.id)])
+    : [undefined, undefined]
 
   return (
-    <div className="space-y-12">
-      {/* ── Hero ────────────────────────────────────────────────── */}
-      <section className="py-16 text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-          {page.title}
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-          {page.description}
-        </p>
-      </section>
-
-      {/* ── Feature cards ───────────────────────────────────────── */}
-      <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {[
-          {
-            icon: Clock,
-            title: 'Real-Time Wait Times',
-            description: 'See live wait times before you leave the house.',
-          },
-          {
-            icon: Stethoscope,
-            title: 'Expert Providers',
-            description: 'Board-certified physicians & nurse practitioners.',
-          },
-          {
-            icon: MapPin,
-            title: 'Multiple Locations',
-            description: 'Convenient clinics throughout the Indy metro area.',
-          },
-        ].map((feature) => (
-          <Card key={feature.title}>
-            <CardHeader>
-              <feature.icon className="h-8 w-8 text-primary-500" aria-hidden />
-              <CardTitle className="text-lg">{feature.title}</CardTitle>
-              <CardDescription>{feature.description}</CardDescription>
-            </CardHeader>
-            <CardContent />
-          </Card>
-        ))}
-      </section>
-    </div>
+    <BlockRenderer
+      blocks={page.blocks}
+      waitTime={clinicStatus?.currentWaitTime}
+      isOpen={clinicStatus?.isOpen}
+      conditions={conditions}
+      tenantId={tenant.id}
+      tenantSlug={tenant.slug}
+    />
   )
 }

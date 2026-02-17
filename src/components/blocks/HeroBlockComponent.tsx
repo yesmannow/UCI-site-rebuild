@@ -8,6 +8,7 @@ import type { ConditionOption } from '@/app/actions/getConditions'
 
 interface Props {
   readonly block: HeroBlockData
+  readonly tenantSlug?: string
   /** Live wait time in minutes (fetched from Tenant document) */
   readonly waitTime?: number
   /** Whether the clinic is currently open */
@@ -16,7 +17,21 @@ interface Props {
   readonly conditions?: ConditionOption[]
 }
 
-export function HeroBlockComponent({ block, waitTime, isOpen, conditions }: Props) {
+export function HeroBlockComponent({
+  block,
+  tenantSlug,
+  waitTime,
+  isOpen,
+  conditions,
+}: Props) {
+  const isPrimaryCare = tenantSlug === 'primary-care'
+  const ctaLabel = tenantSlug
+    ? isPrimaryCare
+      ? 'Book Appointment'
+      : 'Check Wait Times'
+    : block.ctaLabel
+  const ctaHref = tenantSlug ? (isPrimaryCare ? '/book' : '/wait-times') : '/book'
+
   return (
     <section className="py-20 text-center">
       <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -49,10 +64,10 @@ export function HeroBlockComponent({ block, waitTime, isOpen, conditions }: Prop
         </div>
       )}
 
-      {block.ctaLabel && (
+      {ctaLabel && (
         <div className="mt-8">
           <Button variant="accent" size="lg" asChild>
-            <Link href="/book">{block.ctaLabel}</Link>
+            <Link href={ctaHref}>{ctaLabel}</Link>
           </Button>
         </div>
       )}

@@ -93,7 +93,15 @@ export interface ServiceGridBlockData {
   blockType: 'serviceGrid'
   id?: string
   heading?: string
-  services: string[] | Array<{ id: string; title: string; slug: string; icon: string }>
+  services:
+    | string[]
+    | Array<{
+        id: string
+        title: string
+        slug: string
+        icon: string
+        tenant?: string | { id: string }
+      }>
 }
 
 export interface MediaContentBlockData {

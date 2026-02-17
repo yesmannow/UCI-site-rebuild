@@ -13,6 +13,8 @@ interface Props {
   readonly isOpen?: boolean
   /** Conditions for the QuickSearch in HeroBlock */
   readonly conditions?: ConditionOption[]
+  readonly tenantId?: string
+  readonly tenantSlug?: string
   readonly blocks: PageBlock[]
 }
 
@@ -20,7 +22,14 @@ interface Props {
  * Maps Payload block data to their corresponding React components.
  * Each block is wrapped in a <FadeIn> for viewport-triggered animation.
  */
-export function BlockRenderer({ blocks, waitTime, isOpen, conditions }: Props) {
+export function BlockRenderer({
+  blocks,
+  waitTime,
+  isOpen,
+  conditions,
+  tenantId,
+  tenantSlug,
+}: Props) {
   return (
     <>
       {blocks.map((block, index) => {
@@ -33,6 +42,8 @@ export function BlockRenderer({ blocks, waitTime, isOpen, conditions }: Props) {
               waitTime={waitTime}
               isOpen={isOpen}
               conditions={conditions}
+              tenantId={tenantId}
+              tenantSlug={tenantSlug}
             />
           </FadeIn>
         )
@@ -48,21 +59,31 @@ interface BlockSwitchProps {
   readonly waitTime?: number
   readonly isOpen?: boolean
   readonly conditions?: ConditionOption[]
+  readonly tenantId?: string
+  readonly tenantSlug?: string
 }
 
-function BlockSwitch({ block, waitTime, isOpen, conditions }: BlockSwitchProps) {
+function BlockSwitch({
+  block,
+  waitTime,
+  isOpen,
+  conditions,
+  tenantId,
+  tenantSlug,
+}: BlockSwitchProps) {
   switch (block.blockType) {
     case 'hero':
       return (
         <HeroBlockComponent
           block={block}
+          tenantSlug={tenantSlug}
           waitTime={waitTime}
           isOpen={isOpen}
           conditions={conditions}
         />
       )
     case 'serviceGrid':
-      return <ServiceGridBlockComponent block={block} />
+      return <ServiceGridBlockComponent block={block} tenantId={tenantId} />
     case 'mediaContent':
       return <MediaContentBlockComponent block={block} />
     case 'faq':

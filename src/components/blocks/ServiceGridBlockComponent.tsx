@@ -6,14 +6,27 @@ import type { ServiceGridBlockData } from '@/collections/Pages'
 
 interface Props {
   readonly block: ServiceGridBlockData
+  readonly tenantId?: string
 }
 
-export function ServiceGridBlockComponent({ block }: Props) {
+export function ServiceGridBlockComponent({ block, tenantId }: Props) {
   // Services can be IDs (strings) or populated objects
-  const services = block.services.filter(
-    (s): s is { id: string; title: string; slug: string; icon: string } =>
-      typeof s === 'object',
-  )
+  const services = block.services
+    .filter(
+      (s): s is {
+        id: string
+        title: string
+        slug: string
+        icon: string
+        tenant?: string | { id: string }
+      } => typeof s === 'object',
+    )
+    .filter((service) => {
+      if (!tenantId || !service.tenant) return true
+      return typeof service.tenant === 'string'
+        ? service.tenant === tenantId
+        : service.tenant.id === tenantId
+    })
 
   return (
     <section className="py-12">

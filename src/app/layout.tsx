@@ -25,7 +25,8 @@ export default async function RootLayout({
 
   // Pass the hostname to getTenant
   const tenant = await getTenant(hostname)
-  const theme = tenant?.theme ?? 'teal-orange'
+  const themeClass =
+    tenant?.theme === 'navy-gold' ? 'tenant-primary-care' : 'tenant-urgent-care'
   const navbarTenant = tenant
     ? {
         slug: tenant.slug,
@@ -36,7 +37,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body data-theme={theme}>
+      <body className={`${themeClass} antialiased`}>
         {navbarTenant ? <Navbar tenant={navbarTenant} /> : null}
         <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           {children}

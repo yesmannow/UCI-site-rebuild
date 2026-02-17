@@ -18,15 +18,27 @@ const NAV_LINKS = [
 
 /* ── Component ──────────────────────────────────────────────────────── */
 
-export function Navbar({ tenant }: { readonly tenant: { readonly logo: string; readonly slug: string; readonly currentWaitTime?: string } }) {
+export function Navbar({
+  tenant,
+}: {
+  readonly tenant: {
+    readonly logo?: string
+    readonly slug: string
+    readonly currentWaitTime?: string
+  }
+}) {
   const [mobileOpen, setMobileOpen] = React.useState(false)
+  const isUrgentCare = tenant.slug === 'urgent-care'
+  const logoSrc = isUrgentCare
+    ? '/images/uci/logo/uci-logo-transparent-300x67.png'
+    : '/images/pci/logo/pci-logo-retina-3-300x84.png'
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
+    <header className="sticky top-0 z-50 w-full border-b border-primary-600/40 bg-primary-500">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* ── Brand ──────────────────────────────────────────── */}
         <Link href="/" className="flex items-center gap-2" aria-label="Home">
-          <img src={tenant.logo} alt="Tenant Logo" className="h-8 w-auto" />
+          <img src={logoSrc} alt="Tenant Logo" className="h-8 w-auto" />
         </Link>
 
         {/* ── Desktop nav ────────────────────────────────────── */}
@@ -35,7 +47,7 @@ export function Navbar({ tenant }: { readonly tenant: { readonly logo: string; r
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-foreground/80 transition-colors hover:text-primary-500"
+              className="text-sm font-medium text-white/85 transition-colors hover:text-white"
             >
               {link.label}
             </Link>
@@ -46,7 +58,7 @@ export function Navbar({ tenant }: { readonly tenant: { readonly logo: string; r
         <div className="flex items-center gap-3">
           {/* Conditional WaitTime widget */}
           {tenant.slug === 'urgent-care' && tenant.currentWaitTime && (
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-white/80">
               Current Wait Time: {tenant.currentWaitTime}
             </div>
           )}
@@ -60,7 +72,7 @@ export function Navbar({ tenant }: { readonly tenant: { readonly logo: string; r
 
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-md p-2 text-foreground md:hidden"
+            className="inline-flex items-center justify-center rounded-md p-2 text-white md:hidden"
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((prev) => !prev)}
@@ -82,7 +94,7 @@ export function Navbar({ tenant }: { readonly tenant: { readonly logo: string; r
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-primary-500"
+              className="rounded-md px-3 py-2 text-sm font-medium text-white/85 transition-colors hover:bg-primary-600/40 hover:text-white"
               onClick={() => setMobileOpen(false)}
             >
               {link.label}
