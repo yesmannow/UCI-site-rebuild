@@ -13,10 +13,9 @@ export default async function HomePage() {
     notFound()
   }
 
-  const page = tenant.homepage
-
-  if (!page) {
-    notFound()
+  const page = {
+    title: `${tenant.name}`,
+    description: 'Walk-in urgent care clinics across Indianapolis. Save your spot online and skip the wait.',
   }
 
   return (
