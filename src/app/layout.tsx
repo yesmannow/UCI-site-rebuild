@@ -11,7 +11,11 @@ export const metadata: Metadata = {
     'Walk-in urgent care clinics across Indianapolis. Save your spot online and skip the wait.',
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
   const tenant = await getTenant()
 
   return (

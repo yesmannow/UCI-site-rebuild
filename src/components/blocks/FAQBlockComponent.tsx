@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 import type { FAQBlockData } from '@/collections/Pages'
 
 interface Props {
-  block: FAQBlockData
+  readonly block: FAQBlockData
 }
 
 export function FAQBlockComponent({ block }: Props) {
@@ -26,7 +26,7 @@ export function FAQBlockComponent({ block }: Props) {
           const isOpen = openIndex === idx
 
           return (
-            <div key={idx}>
+            <div key={`${block.id ?? 'faq'}-${idx}`}>
               <button
                 type="button"
                 className="flex w-full items-center justify-between px-6 py-4 text-left text-sm font-medium text-foreground transition-colors hover:bg-muted"

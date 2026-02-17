@@ -9,8 +9,8 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 
 interface QuickSearchProps {
-  conditions: ConditionOption[]
-  className?: string
+  readonly conditions: ConditionOption[]
+  readonly className?: string
 }
 
 /**
@@ -66,14 +66,13 @@ export function QuickSearch({ conditions, className }: QuickSearchProps) {
 
       {open && filtered.length > 0 && (
         <ul
-          role="listbox"
           className="absolute z-20 mt-1 w-full max-h-64 overflow-auto rounded-md border border-border bg-popover shadow-lg"
         >
           {filtered.map((c) => (
-            <li key={c.id} role="option" aria-selected={false}>
+            <li key={c.id}>
               <Link
                 href={`/book?condition=${c.id}`}
-                className="flex items-center justify-between px-4 py-2.5 text-sm hover:bg-muted transition-colors"
+                className="flex items-center justify-between px-4 py-2.5 text-sm hover:bg-muted transition-colors focus:outline-none focus:bg-muted"
                 onClick={() => setOpen(false)}
               >
                 <div>

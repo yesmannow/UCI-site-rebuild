@@ -1,7 +1,7 @@
 import { getTenant } from './getTenant';
 
 export async function mockTenant() {
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(globalThis.location.search);
   const mockTenantSlug = urlParams.get('tenant');
 
   if (mockTenantSlug) {

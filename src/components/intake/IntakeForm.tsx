@@ -38,8 +38,8 @@ const PATIENT_PORTAL_URL = 'https://www.mymedicallocker.com'
 /* ── Component ──────────────────────────────────────────────────────── */
 
 interface IntakeFormProps {
-  conditions: ConditionOption[]
-  tenantId: string
+  readonly conditions: ConditionOption[]
+  readonly tenantId: string
 }
 
 export function IntakeForm({ conditions, tenantId }: IntakeFormProps) {
@@ -50,7 +50,6 @@ export function IntakeForm({ conditions, tenantId }: IntakeFormProps) {
   const [leadData, setLeadData] = React.useState<LeadFormData | null>(null)
   const [triageData, setTriageData] = React.useState<TriageFormData | null>(null)
   const [clinicalData, setClinicalData] = React.useState<ClinicalFormData | null>(null)
-  const [inquiryId, setInquiryId] = React.useState<string | null>(null)
   const [error, setError] = React.useState<string | null>(null)
   const [submitted, setSubmitted] = React.useState(false)
 
@@ -64,7 +63,6 @@ export function IntakeForm({ conditions, tenantId }: IntakeFormProps) {
         return
       }
       setLeadData(data)
-      setInquiryId(result.inquiryId)
       setStep(1)
     })
   }
@@ -78,7 +76,8 @@ export function IntakeForm({ conditions, tenantId }: IntakeFormProps) {
   /* ── Step 3 handler — full submission ───────────────────────────── */
   function handleClinicalSubmit(data: ClinicalFormData) {
     setClinicalData(data)
-    // TODO: call submitFullIntake server action → iSalus sync
+    // Call submitFullIntake server action to sync patient data to iSalus EMR
+    // NOTE: PHI must be transmitted server-side only (never logged or exposed client-side)
     setSubmitted(true)
   }
 

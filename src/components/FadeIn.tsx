@@ -13,8 +13,8 @@ const fadeInVariants: Variants = {
 }
 
 interface FadeInProps {
-  children: ReactNode
-  className?: string
+  readonly children: ReactNode
+  readonly className?: string
 }
 
 /**

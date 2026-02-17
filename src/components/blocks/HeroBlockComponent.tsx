@@ -7,13 +7,13 @@ import type { HeroBlockData } from '@/collections/Pages'
 import type { ConditionOption } from '@/app/actions/getConditions'
 
 interface Props {
-  block: HeroBlockData
+  readonly block: HeroBlockData
   /** Live wait time in minutes (fetched from Tenant document) */
-  waitTime?: number
+  readonly waitTime?: number
   /** Whether the clinic is currently open */
-  isOpen?: boolean
+  readonly isOpen?: boolean
   /** Conditions for the QuickSearch overlay (if provided, search is rendered) */
-  conditions?: ConditionOption[]
+  readonly conditions?: ConditionOption[]
 }
 
 export function HeroBlockComponent({ block, waitTime, isOpen, conditions }: Props) {

@@ -10,9 +10,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 
 interface Props {
-  defaultValues?: Partial<LeadFormData>
-  onSubmit: (data: LeadFormData) => void | Promise<void>
-  isPending?: boolean
+  readonly defaultValues?: Partial<LeadFormData>
+  readonly onSubmit: (data: LeadFormData) => void | Promise<void>
+  readonly isPending?: boolean
 }
 
 export function LeadStep({ defaultValues, onSubmit, isPending }: Props) {

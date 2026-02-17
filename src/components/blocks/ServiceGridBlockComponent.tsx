@@ -5,7 +5,7 @@ import { LucideIcon } from '@/components/LucideIcon'
 import type { ServiceGridBlockData } from '@/collections/Pages'
 
 interface Props {
-  block: ServiceGridBlockData
+  readonly block: ServiceGridBlockData
 }
 
 export function ServiceGridBlockComponent({ block }: Props) {

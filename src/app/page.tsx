@@ -1,14 +1,19 @@
-import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import Link from 'next/link'
 import { Clock, MapPin, Stethoscope } from 'lucide-react'
 import { notFound } from 'next/navigation'
+import { headers } from 'next/headers'
 import { getTenant } from '@/lib/getTenant'
-import { getPage } from '@/lib/getPage'
 
 export default async function HomePage() {
-  const tenant = await getTenant()
-  const page = await getPage({ slug: 'home', tenant: { equals: tenant.id } })
+  const headersList = await headers()
+  const host = headersList.get('x-tenant-host') ?? 'localhost'
+  const tenant = await getTenant(host)
+  
+  if (!tenant) {
+    notFound()
+  }
+  
+  const page = tenant.homepage
 
   if (!page) {
     notFound()

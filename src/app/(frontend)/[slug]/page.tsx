@@ -17,7 +17,7 @@ export const revalidate = 60
 
 /* ── Params type ────────────────────────────────────────────────────── */
 
-type Params = Promise<{ slug: string }>
+type Params = Readonly<Promise<{ slug: string }>>
 
 /* ── Tenant resolver (reads x-tenant-host set by middleware) ─────────── */
 
@@ -86,9 +86,9 @@ export async function generateMetadata({
 
 export default async function DynamicPage({
   params,
-}: {
+}: Readonly<{
   params: Params
-}) {
+}>) {
   const { slug } = await params
   const tenant = await resolveTenant()
   if (!tenant) notFound()

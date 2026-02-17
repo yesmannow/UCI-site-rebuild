@@ -7,13 +7,13 @@ import type { PageBlock } from '@/collections/Pages'
 import type { ConditionOption } from '@/app/actions/getConditions'
 
 interface Props {
-  blocks: PageBlock[]
   /** Live wait time (from Tenant document) */
-  waitTime?: number
+  readonly waitTime?: number
   /** Whether the clinic is open */
-  isOpen?: boolean
+  readonly isOpen?: boolean
   /** Conditions for the QuickSearch in HeroBlock */
-  conditions?: ConditionOption[]
+  readonly conditions?: ConditionOption[]
+  readonly blocks: PageBlock[]
 }
 
 /**
@@ -44,10 +44,10 @@ export function BlockRenderer({ blocks, waitTime, isOpen, conditions }: Props) {
 /* ── Internal switch ────────────────────────────────────────────────── */
 
 interface BlockSwitchProps {
-  block: PageBlock
-  waitTime?: number
-  isOpen?: boolean
-  conditions?: ConditionOption[]
+  readonly block: PageBlock
+  readonly waitTime?: number
+  readonly isOpen?: boolean
+  readonly conditions?: ConditionOption[]
 }
 
 function BlockSwitch({ block, waitTime, isOpen, conditions }: BlockSwitchProps) {

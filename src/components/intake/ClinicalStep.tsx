@@ -10,10 +10,10 @@ import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 
 interface Props {
-  defaultValues?: Partial<ClinicalFormData>
-  onSubmit: (data: ClinicalFormData) => void | Promise<void>
-  onBack: () => void
-  isPending?: boolean
+  readonly defaultValues?: Partial<ClinicalFormData>
+  readonly onSubmit: (data: ClinicalFormData) => void | Promise<void>
+  readonly onBack: () => void
+  readonly isPending?: boolean
 }
 
 export function ClinicalStep({ defaultValues, onSubmit, onBack, isPending }: Props) {

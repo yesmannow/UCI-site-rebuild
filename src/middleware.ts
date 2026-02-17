@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getTenant } from '@/lib/getTenant'
 
 /**
  * Edge Middleware – runs on every request, detects the tenant from the
@@ -31,5 +30,5 @@ export const config = {
    * Match all front-end routes but skip Payload admin, API, static assets,
    * and Next.js internals.
    */
-  matcher: ['/((?!_next|api|admin|favicon\\.ico|.*\\..*).*)'],
+  matcher: [String.raw`/((?!_next|api|admin|favicon\.ico|.*\..*).*)` ],
 }

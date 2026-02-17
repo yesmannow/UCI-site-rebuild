@@ -13,10 +13,10 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 interface Props {
-  conditions: ConditionOption[]
-  defaultValues?: Partial<TriageFormData>
-  onSubmit: (data: TriageFormData) => void | Promise<void>
-  onBack: () => void
+  readonly conditions: ConditionOption[]
+  readonly defaultValues?: Partial<TriageFormData>
+  readonly onSubmit: (data: TriageFormData) => void | Promise<void>
+  readonly onBack: () => void
 }
 
 export function TriageStep({ conditions, defaultValues, onSubmit, onBack }: Props) {
@@ -84,28 +84,34 @@ export function TriageStep({ conditions, defaultValues, onSubmit, onBack }: Prop
         {/* Dropdown */}
         {open && filtered.length > 0 && (
           <ul
-            role="listbox"
             className="max-h-60 overflow-auto rounded-md border border-border bg-popover shadow-md"
           >
             {filtered.map((c) => (
-              <li
-                key={c.id}
-                role="option"
-                aria-selected={c.id === selectedId}
-                className={cn(
-                  'cursor-pointer px-4 py-2 text-sm hover:bg-muted',
-                  c.id === selectedId && 'bg-primary-50 font-medium text-primary-700',
-                )}
-                onClick={() => {
-                  setValue('conditionId', c.id)
-                  setQuery(c.title)
-                  setOpen(false)
-                }}
-              >
-                <span className="font-medium">{c.title}</span>
-                <span className="ml-2 text-xs text-muted-foreground">
-                  {c.symptoms.slice(0, 3).join(', ')}
-                </span>
+              <li key={c.id}>
+                <button
+                  type="button"
+                  className={cn(
+                    'w-full text-left cursor-pointer px-4 py-2 text-sm hover:bg-muted',
+                    c.id === selectedId && 'bg-primary-50 font-medium text-primary-700',
+                  )}
+                  onClick={() => {
+                    setValue('conditionId', c.id)
+                    setQuery(c.title)
+                    setOpen(false)
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setValue('conditionId', c.id)
+                      setQuery(c.title)
+                      setOpen(false)
+                    }
+                  }}
+                >
+                  <span className="font-medium">{c.title}</span>
+                  <span className="ml-2 text-xs text-muted-foreground">
+                    {c.symptoms.slice(0, 3).join(', ')}
+                  </span>
+                </button>
               </li>
             ))}
           </ul>

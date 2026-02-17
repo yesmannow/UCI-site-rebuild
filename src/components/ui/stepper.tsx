@@ -13,10 +13,10 @@ export interface Step {
 }
 
 export interface StepperProps {
-  steps: Step[]
+  readonly steps: Step[]
   /** Zero-based index of the currently active step */
-  activeStep: number
-  className?: string
+  readonly activeStep: number
+  readonly className?: string
 }
 
 /* ── Component ──────────────────────────────────────────────────────── */
