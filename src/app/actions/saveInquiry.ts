@@ -56,7 +56,7 @@ export async function saveInquiry(
     const created = await payload.create({
       collection: 'inquiries',
       data: {
-        tenant: tenantId,
+        tenant: Number(tenantId),
         firstName,
         lastName,
         email,
