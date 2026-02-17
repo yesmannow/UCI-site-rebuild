@@ -8,11 +8,11 @@ export default async function HomePage() {
   const headersList = await headers()
   const host = headersList.get('x-tenant-host') ?? 'localhost'
   const tenant = await getTenant(host)
-  
+
   if (!tenant) {
     notFound()
   }
-  
+
   const page = tenant.homepage
 
   if (!page) {
