@@ -7,6 +7,7 @@ import { getTenant } from '@/lib/getTenant'
 import { BlockRenderer } from '@/components/BlockRenderer'
 import { getClinicStatus } from '@/app/actions/getClinicStatus'
 import { getConditions } from '@/app/actions/getConditions'
+import { TriageAgent } from '@/components/triage'
 import type { PageDoc } from '@/collections/Pages'
 
 export const dynamic = 'force-dynamic'
@@ -40,13 +41,23 @@ export default async function HomePage() {
     : [undefined, undefined]
 
   return (
-    <BlockRenderer
-      blocks={page.blocks}
-      waitTime={clinicStatus?.currentWaitTime}
-      isOpen={clinicStatus?.isOpen}
-      conditions={conditions}
-      tenantId={tenant.id}
-      tenantSlug={tenant.slug}
-    />
+    <>
+      {/* Quick Symptom Checker - Top of page */}
+      <section className="bg-gradient-to-b from-primary-50 to-transparent px-4 py-8">
+        <div className="mx-auto max-w-2xl">
+          <TriageAgent tenantSlug={tenant.slug} theme={tenant.theme} />
+        </div>
+      </section>
+
+      {/* Main content blocks */}
+      <BlockRenderer
+        blocks={page.blocks}
+        waitTime={clinicStatus?.currentWaitTime}
+        isOpen={clinicStatus?.isOpen}
+        conditions={conditions}
+        tenantId={tenant.id}
+        tenantSlug={tenant.slug}
+      />
+    </>
   )
 }
